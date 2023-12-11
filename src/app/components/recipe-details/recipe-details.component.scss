@@ -1,0 +1,87 @@
+
+
+* {
+  font-family: 'Comfortaa', cursive;
+}
+
+.img-container {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 1px 1px 6px rgba(0,0,0,.15);
+  img {
+    width: 100%;
+  }
+  .fav-icon {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    background-color: #fff;
+    width: 45px;
+    height: 45px;
+    box-shadow: 1px 1px 4px rgba(0,0,0,.25);
+    img {
+      width: 28px;
+    }
+  }
+}
+
+.sec-title {
+  font-family: 'Playball', cursive;
+  letter-spacing: 1px;
+  font-size: 18px;
+}
+.content {
+  padding: 1.25rem 0;
+  .title {
+    font-family: 'Playball', cursive;
+    letter-spacing: 1px;
+    font-size: 24px;
+  }
+  .price {
+    color: rgba(238, 111, 9, .9);
+    display: inline-block;
+  }
+  .summary {
+    font-size: 12px;
+  }
+  .ingredients {
+    margin-bottom: .75rem;
+    ul {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      li {
+        font-size: 12px;
+        width: fit-content;
+        padding: 0.125rem 0.5rem .25rem;
+        background: rgba(238, 111, 9, .9);;
+        color: #fff;
+        border-radius: 4px;
+      }
+    }
+  }
+  .more-info {
+    display: flex;
+    gap: 1.25rem;
+    li {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid #ededed;
+      padding: 0.125rem 1rem;
+      align-items: center;
+      &:last-child {
+        border: none;
+      }
+      img {
+        width: 28px;
+      }
+    }
+  }
+}

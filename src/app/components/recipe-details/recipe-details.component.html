@@ -1,0 +1,48 @@
+
+<app-header [hasSearch]="false"></app-header>
+
+
+<div class="container mt-4">
+  <div class="row" *ngIf="recipe">
+    <div class="col-md-7">
+      <div class="img-container">
+        <img [src]="recipe?.image" alt="">
+        <span (click)="addToFavorites()" class="fav-icon"><img [src]="recipe?.isFavorite ? 'assets/heart-fill.svg' : 'assets/heart.svg'" alt=""></span>
+      </div>
+    </div>
+
+    <div class="col-md-5 d-flex align-items-center">
+      <div class="content">
+        <h5 class="title">{{recipe?.title}}</h5>
+        <h6 class="price">{{recipe?.pricePerServing | currency}}</h6><span class="text-muted">/per serving</span>
+        <p class="summary text-muted" [innerHTML]="recipe?.summary"></p>
+
+        <div class="ingredients">
+          <h6 class="sec-title">Ingredients</h6>
+          <ul class="mb-0 ps-0 list-unstyled">
+            <li *ngFor="let i of recipe?.extendedIngredients">{{i?.name}}</li>
+          </ul>
+        </div>
+
+        <!-- <ul class="more-info mb-0 ps-0 list-unstyled">
+          <li>
+            <img src="assets/clock.svg" alt="">
+            <span class="text-muted">{{recipe?.readyInMinutes}} mins</span>
+          </li>
+          <li>
+            <img src="assets/thumbs-up.svg" alt="">
+            <span class="text-muted">{{recipe?.aggregateLikes}} likes</span>
+          </li>
+        </ul> -->
+      </div>
+    </div>
+    <div class="instructions my-3 px-4">
+      <h6 class="sec-title">Instructions</h6>
+      <p class="text-muted" [innerHTML]="recipe?.instructions"></p>
+    </div>
+  </div>
+
+  <div class="not-found" *ngIf="!recipe">
+    <h5>Data Not Found</h5>
+  </div>
+</div>

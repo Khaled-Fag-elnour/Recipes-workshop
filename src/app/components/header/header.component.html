@@ -1,0 +1,25 @@
+
+<header>
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center gap-2">
+      <div class="logo">
+        <img src="assets/download.png" alt="">
+      </div>
+
+      <ul class="menu mb-0 ps-0">
+        <li class="menu-item">
+          <a routerLink="/home" routerLinkActive="active">Recipes</a>
+        </li>
+        <li class="menu-item">
+          <a routerLink="/favorites" routerLinkActive="active">Favorites</a>
+        </li>
+      </ul>
+
+      <div class="search" *ngIf="hasSearch">
+        <img src="assets/search.svg" alt="">
+        <input [(ngModel)]="searchValue" type="text" placeholder="Search..." class="form-control">
+        <button [disabled]="!searchValue" (click)="onSearch.emit(searchValue)" class="search-btn btn">Search</button>
+      </div>
+    </div>
+  </div>
+</header>
