@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MainService } from 'src/app/services/main.service';
 import { StateService } from 'src/app/services/state.service';
@@ -11,7 +11,7 @@ import { StateService } from 'src/app/services/state.service';
 })
 export class RecipesComponent implements OnInit {
 
-  loading = false;
+  loading = true;
   page = '';
   favorites: any = [];
   recipes: any = [];
@@ -22,10 +22,12 @@ export class RecipesComponent implements OnInit {
   pageNumber = 0;
   totalRecords = 0;
   searchValue = '';
+  @ViewChild('toast') toast: ElementRef | null = null;
   constructor(
     private mainService: MainService,
     private stateService: StateService,
     private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -38,6 +40,7 @@ export class RecipesComponent implements OnInit {
       if (url.endsWith('favorites')) {
         this.page = 'favorites'
         this.recipes = this.favorites;
+        this.loading = false;
       } else {
         this.page = 'home'
         this.subs.push(this.stateService.$recipes.subscribe((res: any) => {
@@ -46,6 +49,7 @@ export class RecipesComponent implements OnInit {
           } else {
             this.handlePagingData(res);
             this.recipes = res.results;
+            this.loading = false;
           }
         }));
       }
@@ -77,23 +81,30 @@ export class RecipesComponent implements OnInit {
       this.searchValue = searchValue;
     }
     // if (this.searchValue) {
-      this.loading = true;
-      this.mainService.searchRecipes(searchValue, pageSize, offset).subscribe((res: any) => {
-        this.loading = false;
-        console.log(res);
+      if (this.page == 'home') {
+        this.loading = true;
+        this.mainService.searchRecipes(searchValue, pageSize, offset).subscribe((res: any) => {
+          this.loading = false;
+          console.log(res);
 
-        let results = res?.results.map((r: any) => {
-          let isFavorite = this.favorites.find((favRecipe: any) => favRecipe.id == r.id);
-          r = {...r, isFavorite};
-          return r;
+          let results = res?.results.map((r: any) => {
+            let isFavorite = this.favorites.find((favRecipe: any) => favRecipe.id == r.id);
+            r = {...r, isFavorite};
+            return r;
+          })
+
+          this.handlePagingData(res);
+
+          this.stateService.$recipes.next({...res, results});
+        }, err => {
+          console.log(err);
+          this.loading = false;
         })
+      } else {
+        console.log(this.favorites);
 
-        this.handlePagingData(res);
-
-        this.stateService.$recipes.next({...res, results});
-      }, err => {
-        this.loading = false;
-      })
+        this.recipes = this.favorites.filter((r: any) => r.title.trim().toLowerCase().includes(searchValue.trim().toLowerCase()));
+      }
     // }
   }
 
@@ -111,6 +122,7 @@ export class RecipesComponent implements OnInit {
         this.favorites.indexOf(this.favorites.find((r: any) => r.id == recipe?.id)!), 1
       )
       localStorage.setItem('myFavoriteRecipes', JSON.stringify(this.favorites));
+      this.showToast();
       recipe.isFavorite = false;
       // TODO change isFavorite for this recipe in the stateService.$recipes
     } else {
@@ -125,8 +137,20 @@ export class RecipesComponent implements OnInit {
       }
       this.favorites.push(favRecipe);
       localStorage.setItem('myFavoriteRecipes', JSON.stringify(this.favorites));
+      this.showToast();
       recipe.isFavorite = true;
     }
+  }
+
+  showToast() {
+    let toastTimeout;
+    this.toast!.nativeElement.style.opacity = 1;
+    this.toast!.nativeElement.style.visibility = 'visible';
+
+    toastTimeout = setTimeout(() => {
+      this.toast!.nativeElement.style.opacity = 0;
+      this.toast!.nativeElement.style.visibility = 'hidden';
+    }, 1500)
   }
 
   previous() {

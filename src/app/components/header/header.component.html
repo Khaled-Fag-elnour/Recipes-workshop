@@ -18,7 +18,7 @@
       <div class="search" *ngIf="hasSearch">
         <img src="assets/search.svg" alt="">
         <input [(ngModel)]="searchValue" type="text" placeholder="Search..." class="form-control">
-        <button [disabled]="!searchValue" (click)="onSearch.emit(searchValue)" class="search-btn btn">Search</button>
+        <button (click)="onSearch.emit(searchValue)" class="search-btn btn">Search</button>
       </div>
     </div>
   </div>

@@ -1,9 +1,10 @@
 
 <app-header (onSearch)="searchRecipes($event)"></app-header>
 
+<div class="loading" *ngIf="loading"><span></span></div>
+<div #toast class="custom-toast"><span class="check"><img src="assets/check.svg" alt=""></span>SAVED!</div>
 
 <div class="container my-4" *ngIf="recipes?.length > 0">
-  <div class="loading" *ngIf="loading"><span></span></div>
   <div class="row">
     <div class="col-lg-4 col-md-6 mb-4" *ngFor="let r of recipes">
       <a class="recipe" [routerLink]="'/recipes/'+r?.id+'/recipe-details'">
@@ -64,6 +65,6 @@
 
 </div>
 
-<div class="container my-4" *ngIf="recipes?.length <= 0">
+<div class="container my-4" *ngIf="recipes?.length <= 0 && !loading">
   <h5>Data Not Found</h5>
 </div>

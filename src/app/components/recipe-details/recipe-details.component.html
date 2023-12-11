@@ -1,6 +1,8 @@
 
 <app-header [hasSearch]="false"></app-header>
 
+<div class="loading" *ngIf="loading"><span></span></div>
+<div #toast class="custom-toast"><span class="check"><img src="assets/check.svg" alt=""></span>SAVED!</div>
 
 <div class="container mt-4">
   <div class="row" *ngIf="recipe">
@@ -42,7 +44,7 @@
     </div>
   </div>
 
-  <div class="not-found" *ngIf="!recipe">
+  <div class="not-found" *ngIf="!recipe && !loading">
     <h5>Data Not Found</h5>
   </div>
 </div>
