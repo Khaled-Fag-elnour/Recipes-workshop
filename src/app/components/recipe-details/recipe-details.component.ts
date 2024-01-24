@@ -20,7 +20,7 @@ export class RecipeDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.favorites = JSON.parse(localStorage.getItem('myFavoriteRecipes')!) || [];
+    this.favorites = JSON.parse(localStorage.getItem('myFavoriteRecipes')!) || [];
     this.route.params.subscribe(params => {
       this.recipeId = params['id'];
       this.getRecipeDetails();
@@ -57,7 +57,7 @@ export class RecipeDetailsComponent implements OnInit {
       this.favorites.splice(
         this.favorites.indexOf(this.favorites.find((r: any) => r.id == this.recipe?.id)!), 1
       )
-      // localStorage.setItem('myFavoriteRecipes', JSON.stringify(this.favorites));
+      localStorage.setItem('myFavoriteRecipes', JSON.stringify(this.favorites));
       this.showToast();
       this.recipe.isFavorite = false;
       // TODO change isFavorite for this recipe in the stateService.$recipes
@@ -72,7 +72,7 @@ export class RecipeDetailsComponent implements OnInit {
         isFavorite: true,
       }
       this.favorites.push(favRecipe);
-      // localStorage.setItem('myFavoriteRecipes', JSON.stringify(this.favorites));
+      localStorage.setItem('myFavoriteRecipes', JSON.stringify(this.favorites));
       this.showToast();
       this.recipe.isFavorite = true;
     }
