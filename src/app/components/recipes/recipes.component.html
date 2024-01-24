@@ -6,7 +6,11 @@
 
 <div class="container my-4" *ngIf="recipes?.length > 0">
   <div class="row">
-    <div class="col-lg-4 col-md-6 mb-4" *ngFor="let r of recipes">
+    <div class="col-lg-4 col-md-6 mb-4" *ngFor="let r of recipes | paginate : {
+        itemsPerPage: pageSize,
+        currentPage: pageNumber,
+        totalItems: totalRecords
+      };">
       <a class="recipe" [routerLink]="'/recipes/'+r?.id+'/recipe-details'">
         <div class="img-container">
           <img class="recipe-img" [src]="r?.image" alt="">
@@ -32,7 +36,9 @@
     </div>
   </div>
 
-  <nav aria-label="Page navigation" *ngIf="page == 'home'">
+  <pagination-controls class="custom-pagination" (pageChange)="paginate($event)"></pagination-controls>
+
+  <!-- <nav aria-label="Page navigation" *ngIf="page == 'home'">
     <ul class="pagination justify-content-center mb-0" style="gap: 4px;">
       <li class="page-item">
         <button (click)="previous()" [disabled]="pageNumber == 1" class="page-link">Previous</button>
@@ -53,15 +59,11 @@
       <li class="page-item" *ngIf="pageNumber == 1 && numOfPages - pageNumber > 2">
         <button (click)="paginate(pageNumber+3)" class="page-link">{{pageNumber+3}}</button>
       </li>
-
-      <!-- <li class="page-item" *ngFor="let item of [].constructor(numOfPages); let i=index">
-        <button (click)="paginate(i+1)" class="page-link">{{i+1}}</button>
-      </li> -->
       <li class="page-item">
         <button (click)="next()" [disabled]="pageNumber == numOfPages" class="page-link">Next</button>
       </li>
     </ul>
-  </nav>
+  </nav> -->
 
 </div>
 

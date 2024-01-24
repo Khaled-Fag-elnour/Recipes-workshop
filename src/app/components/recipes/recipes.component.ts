@@ -31,7 +31,7 @@ export class RecipesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.favorites = JSON.parse(localStorage.getItem('myFavoriteRecipes')!) || [];
+    // this.favorites = JSON.parse(localStorage.getItem('myFavoriteRecipes')!) || [];
     this.offset = Math.round(Math.random() * 900);
     console.log(this.offset);
 
@@ -121,7 +121,7 @@ export class RecipesComponent implements OnInit {
       this.favorites.splice(
         this.favorites.indexOf(this.favorites.find((r: any) => r.id == recipe?.id)!), 1
       )
-      localStorage.setItem('myFavoriteRecipes', JSON.stringify(this.favorites));
+      // localStorage.setItem('myFavoriteRecipes', JSON.stringify(this.favorites));
       this.showToast();
       recipe.isFavorite = false;
       // TODO change isFavorite for this recipe in the stateService.$recipes
@@ -136,7 +136,7 @@ export class RecipesComponent implements OnInit {
         isFavorite: true,
       }
       this.favorites.push(favRecipe);
-      localStorage.setItem('myFavoriteRecipes', JSON.stringify(this.favorites));
+      // localStorage.setItem('myFavoriteRecipes', JSON.stringify(this.favorites));
       this.showToast();
       recipe.isFavorite = true;
     }
@@ -196,7 +196,7 @@ export class RecipesComponent implements OnInit {
         this.getRecipes();
       }
     } else {
-
+      this.pageNumber = pageNumber;
     }
   }
 
